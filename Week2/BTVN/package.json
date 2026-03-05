@@ -1,0 +1,14 @@
+{
+  "name": "btvn-http-requests",
+  "version": "1.0.0",
+  "description": "BTVN: Thiết kế HTTP request cho 5 tình huống + Phân tích mã lỗi HTTP",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0"
+  }
+}
