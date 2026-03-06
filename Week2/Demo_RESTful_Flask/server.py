@@ -1,4 +1,5 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, make_response, request
+import random
 
 app = Flask(__name__)
 
@@ -53,6 +54,12 @@ def calculate_sum():
         "b": b,
         "sum": a + b
     })
+
+@app.route("/random")
+def get_random():
+    resp = make_response(jsonify({"number": random.randint(1, 1000)}))
+    resp.headers["Cache-Control"] = "max-age=10"  
+    return resp
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
