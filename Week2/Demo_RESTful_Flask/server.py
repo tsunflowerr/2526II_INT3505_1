@@ -37,5 +37,22 @@ def create_user():
     user.append(new_user)
     return jsonify(new_user), 201
 
+
+@app.route("/sum", methods=["POST"])
+def calculate_sum():
+    data = request.json
+
+    a = data.get("a")
+    b = data.get("b")
+
+    if a is None or b is None:
+        return {"error": "Missing data"}, 400
+
+    return jsonify({
+        "a": a,
+        "b": b,
+        "sum": a + b
+    })
+
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
