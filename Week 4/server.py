@@ -67,5 +67,32 @@ def demo2():
         "author": "Tester"
     })
 
+@app.route('/book', methods=['GET'])
+def get_book():
+    """
+    Get a book
+    ---
+    summary: Demo schema
+
+    responses:
+      200:
+        description: A book object
+        schema:
+          type: object
+          properties:
+            id:
+              type: integer
+            title:
+              type: string
+            author:
+              type: string
+    """
+    return jsonify({
+        "id": 1,
+        "title": "Clean Code",
+        "author": "Robert"
+    })
+
+
 if __name__ == '__main__':
     app.run(debug=True)
