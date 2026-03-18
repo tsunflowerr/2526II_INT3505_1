@@ -93,6 +93,24 @@ def get_book():
         "author": "Robert"
     })
 
+@app.route('/books/<int:id>', methods=['GET'])
+def get_book_by_id(id):
+    """
+    Get book by ID
+    ---
+    summary: Demo path parameter
+
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: integer
+
+    responses:
+      200:
+        description: Success
+    """
+    return jsonify({"id": id})
 
 if __name__ == '__main__':
     app.run(debug=True)
