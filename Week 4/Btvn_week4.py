@@ -2,7 +2,6 @@ from flask import Flask, jsonify, request
 from flasgger import Swagger
 
 app = Flask(__name__)
-swagger = Swagger(app)
 
 books = [
     {"id": 1, "title": "Clean Code", "author": "Robert"},
