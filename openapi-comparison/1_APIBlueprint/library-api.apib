@@ -1,0 +1,133 @@
+FORMAT: 1A
+HOST: http://localhost:5000
+
+# Library Management API
+
+API for managing library books
+
+# Group Books
+
+## Books Collection [/books]
+
+### List All Books [GET]
+
+Returns a list of all books in the library.
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id": 1,
+                "title": "Clean Code",
+                "author": "Robert C. Martin",
+                "isbn": "978-0132350884",
+                "year": 2008,
+                "available": true
+            }
+        ]
+
+### Create a New Book [POST]
+
+Create a new book in the library.
+
++ Request (application/json)
+
+        {
+            "title": "Clean Code",
+            "author": "Robert C. Martin",
+            "isbn": "978-0132350884",
+            "year": 2008,
+            "available": true
+        }
+
++ Response 201 (application/json)
+
+        {
+            "id": 1,
+            "title": "Clean Code",
+            "author": "Robert C. Martin",
+            "isbn": "978-0132350884",
+            "year": 2008,
+            "available": true
+        }
+
++ Response 400 (application/json)
+
+        {
+            "error": "Invalid input"
+        }
+
+## Book Detail [/books/{id}]
+
+### Get Book by ID [GET]
+
+Get details of a specific book.
+
++ Parameters
+    + id (number, required) - The book ID
+
++ Response 200 (application/json)
+
+        {
+            "id": 1,
+            "title": "Clean Code",
+            "author": "Robert C. Martin",
+            "isbn": "978-0132350884",
+            "year": 2008,
+            "available": true
+        }
+
++ Response 404 (application/json)
+
+        {
+            "error": "Book not found"
+        }
+
+### Update a Book [PUT]
+
+Update an existing book.
+
++ Parameters
+    + id (number, required) - The book ID
+
++ Request (application/json)
+
+        {
+            "title": "Clean Code",
+            "author": "Robert C. Martin",
+            "isbn": "978-0132350884",
+            "year": 2008,
+            "available": false
+        }
+
++ Response 200 (application/json)
+
+        {
+            "id": 1,
+            "title": "Clean Code",
+            "author": "Robert C. Martin",
+            "isbn": "978-0132350884",
+            "year": 2008,
+            "available": false
+        }
+
++ Response 404 (application/json)
+
+        {
+            "error": "Book not found"
+        }
+
+### Delete a Book [DELETE]
+
+Delete a book from the library.
+
++ Parameters
+    + id (number, required) - The book ID
+
++ Response 204
+
++ Response 404 (application/json)
+
+        {
+            "error": "Book not found"
+        }

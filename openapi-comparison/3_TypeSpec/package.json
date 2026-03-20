@@ -1,0 +1,18 @@
+{
+  "name": "library-api-typespec",
+  "version": "1.0.0",
+  "description": "TypeSpec definition for Library Management API",
+  "scripts": {
+    "compile": "tsp compile .",
+    "watch": "tsp compile . --watch",
+    "generate:openapi": "tsp compile .",
+    "format": "tsp format .",
+    "validate": "tsp compile . --no-emit"
+  },
+  "devDependencies": {
+    "@typespec/compiler": "^0.50.0",
+    "@typespec/http": "^0.50.0",
+    "@typespec/openapi3": "^0.50.0",
+    "@typespec/rest": "^0.50.0"
+  }
+}

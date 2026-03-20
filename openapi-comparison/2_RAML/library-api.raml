@@ -1,0 +1,200 @@
+#%RAML 1.0
+title: Library Management API
+description: API for managing library books
+version: 1.0.0
+baseUri: http://localhost:5000
+
+types:
+  Book:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 1
+      title:
+        type: string
+        example: "Clean Code"
+      author:
+        type: string
+        example: "Robert C. Martin"
+      isbn:
+        type: string
+        example: "978-0132350884"
+      year:
+        type: integer
+        example: 2008
+      available:
+        type: boolean
+        example: true
+  
+  CreateBookRequest:
+    type: object
+    properties:
+      title:
+        type: string
+        required: true
+        example: "Clean Code"
+      author:
+        type: string
+        required: true
+        example: "Robert C. Martin"
+      isbn:
+        type: string
+        required: true
+        example: "978-0132350884"
+      year:
+        type: integer
+        example: 2008
+      available:
+        type: boolean
+        example: true
+  
+  UpdateBookRequest:
+    type: object
+    properties:
+      title:
+        type: string
+      author:
+        type: string
+      isbn:
+        type: string
+      year:
+        type: integer
+      available:
+        type: boolean
+
+/books:
+  get:
+    displayName: List All Books
+    description: Get all books from the library
+    responses:
+      200:
+        body:
+          application/json:
+            type: Book[]
+            example: |
+              [
+                {
+                  "id": 1,
+                  "title": "Clean Code",
+                  "author": "Robert C. Martin",
+                  "isbn": "978-0132350884",
+                  "year": 2008,
+                  "available": true
+                }
+              ]
+  
+  post:
+    displayName: Create a New Book
+    description: Create a new book in the library
+    body:
+      application/json:
+        type: CreateBookRequest
+        example: |
+          {
+            "title": "Clean Code",
+            "author": "Robert C. Martin",
+            "isbn": "978-0132350884",
+            "year": 2008,
+            "available": true
+          }
+    responses:
+      201:
+        body:
+          application/json:
+            type: Book
+            example: |
+              {
+                "id": 1,
+                "title": "Clean Code",
+                "author": "Robert C. Martin",
+                "isbn": "978-0132350884",
+                "year": 2008,
+                "available": true
+              }
+      400:
+        body:
+          application/json:
+            example: |
+              {
+                "error": "Invalid input"
+              }
+
+  /{id}:
+    uriParameters:
+      id:
+        type: integer
+        description: The book ID
+        example: 1
+    
+    get:
+      displayName: Get Book by ID
+      description: Get details of a specific book
+      responses:
+        200:
+          body:
+            application/json:
+              type: Book
+              example: |
+                {
+                  "id": 1,
+                  "title": "Clean Code",
+                  "author": "Robert C. Martin",
+                  "isbn": "978-0132350884",
+                  "year": 2008,
+                  "available": true
+                }
+        404:
+          body:
+            application/json:
+              example: |
+                {
+                  "error": "Book not found"
+                }
+    
+    put:
+      displayName: Update a Book
+      description: Update an existing book
+      body:
+        application/json:
+          type: UpdateBookRequest
+          example: |
+            {
+              "title": "Clean Code",
+              "author": "Robert C. Martin",
+              "available": false
+            }
+      responses:
+        200:
+          body:
+            application/json:
+              type: Book
+              example: |
+                {
+                  "id": 1,
+                  "title": "Clean Code",
+                  "author": "Robert C. Martin",
+                  "isbn": "978-0132350884",
+                  "year": 2008,
+                  "available": false
+                }
+        404:
+          body:
+            application/json:
+              example: |
+                {
+                  "error": "Book not found"
+                }
+    
+    delete:
+      displayName: Delete a Book
+      description: Delete a book from the library
+      responses:
+        204:
+        404:
+          body:
+            application/json:
+              example: |
+                {
+                  "error": "Book not found"
+                }

@@ -1,0 +1,14 @@
+emit:
+  - "@typespec/openapi3"
+
+options:
+  "@typespec/openapi3":
+    output-file: "./tsp-output/library-api.yaml"
+
+extends: []
+
+warn-as-error: false
+
+imports: []
+
+parameters: {}
