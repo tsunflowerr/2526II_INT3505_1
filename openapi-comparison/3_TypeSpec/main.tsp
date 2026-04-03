@@ -77,7 +77,6 @@ model UpdateBookRequest {
   available?: boolean;
 }
 
-@ext("x-typespec-resource", "Book")
 @route("/books")
 interface Books {
   @doc("Get all books")
@@ -101,5 +100,5 @@ interface Books {
   @doc("Delete a book")
   @delete
   @route("{id}")
-  delete(@path id: int32): NoContent;
+  delete(@path id: int32): void;
 }

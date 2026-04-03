@@ -24,3 +24,6 @@ File spec: `2_RAML/library-api.raml`
 
 Cú pháp giống TypeScript, do Microsoft phát triển (2023). Compile sang OpenAPI rồi dùng các công cụ của OpenAPI. Đang phát triển, phù hợp với team TypeScript hoặc hệ sinh thái Microsoft.
 
+File spec: `3_TypeSpec/main.tsp`
+
+

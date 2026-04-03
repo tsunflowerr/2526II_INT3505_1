@@ -1,7 +1,9 @@
 from flask import Flask, jsonify, request
 import base64
+from flasgger import Swagger
 
 app = Flask(__name__)
+swagger = Swagger(app)
 
 # Sample data
 books = [
@@ -34,6 +36,15 @@ def decode_cursor(cursor):
 
 @app.route("/books")
 def books_cursor():
+    """
+    Cursor-based pagination for books
+    ---
+    tags:
+      - Books
+    responses:
+      200:
+        description: Page of books with next cursor
+    """
     cursor = request.args.get("cursor", None)
     limit = int(request.args.get("limit", 5))
 

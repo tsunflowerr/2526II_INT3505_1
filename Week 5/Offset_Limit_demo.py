@@ -1,6 +1,8 @@
 from flask import Flask, jsonify, request
+from flasgger import Swagger
 
 app = Flask(__name__)
+swagger = Swagger(app)
 
 # Sample data
 books = [
@@ -22,6 +24,15 @@ books = [
 
 @app.route("/books")
 def books_offset():
+    """
+    Offset-limit pagination for books
+    ---
+    tags:
+      - Books
+    responses:
+      200:
+        description: Offset-limit slice of books
+    """
     offset = int(request.args.get("offset", 0))
     limit = int(request.args.get("limit", 5))
 

@@ -1,6 +1,8 @@
 from flask import Flask, jsonify, request
+from flasgger import Swagger
 
 app = Flask(__name__)
+swagger = Swagger(app)
 
 # Sample data
 books = [
@@ -16,6 +18,15 @@ books = [
 
 @app.route("/books")
 def search_books():
+    """
+    Search and paginate books
+    ---
+    tags:
+      - Books
+    responses:
+      200:
+        description: Paginated list of books
+    """
     search = request.args.get("search", "").lower()
     page = int(request.args.get("page", 1))
     page_size = int(request.args.get("page_size", 5))
