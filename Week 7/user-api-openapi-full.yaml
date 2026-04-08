@@ -1,0 +1,58 @@
+openapi: 3.0.3
+info:
+  title: User Management API
+  version: 1.0.0
+  description: Mau OpenAPI day du hon cho demo quan ly user document trong MongoDB
+servers:
+  - url: http://localhost:3000
+    description: Local
+tags:
+  - name: Users
+    description: Nhom API quan ly user documents
+
+paths:
+  /users:
+    get:
+      tags: [Users]
+      summary: Lay danh sach user documents
+      responses:
+        '200':
+          description: Danh sach user document
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+
+  /users/sample-document:
+    get:
+      tags: [Users]
+      summary: Lay mot document MongoDB mau
+      responses:
+        '200':
+          description: User document mau
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+components:
+  schemas:
+    User:
+      type: object
+      required: [_id, name, email, age]
+      properties:
+        _id:
+          type: string
+          example: 6612abc123
+        name:
+          type: string
+          example: Nguyen Van A
+        email:
+          type: string
+          format: email
+          example: a@gmail.com
+        age:
+          type: integer
+          example: 22

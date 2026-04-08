@@ -1,0 +1,11 @@
+openapi: 3.0.3
+info:
+  title: User API
+  version: 1.0.0
+paths:
+  /users:
+    get:
+      summary: Lấy danh sách users
+      responses:
+        '200':
+          description: Trả về danh sách users
