@@ -2,10 +2,12 @@ from flask import Flask, jsonify, request
 import base64
 from flasgger import Swagger
 
+# Tạo app Flask.
 app = Flask(__name__)
+# Bật Swagger để xem mô tả API.
 swagger = Swagger(app)
 
-# Sample data
+# Dữ liệu mẫu để demo phân trang.
 books = [
     {"id": 1, "title": "Python 101", "author": "John Doe"},
     {"id": 2, "title": "Flask Guide", "author": "Jane Smith"},
@@ -17,21 +19,21 @@ books = [
     {"id": 8, "title": "Database Design", "author": "Frank Garcia"},
 ]
 
-# Ý tưởng: Cursor-based pagination
-# /books?cursor=xxx&limit=5
-# Logic:
-# cursor = base64(id) của phần tử cuối cùng
-# limit = số lượng record
+# Cursor-based là kiểu phân trang theo mốc dữ liệu cuối cùng đã đọc.
+# Ví dụ: /books?cursor=xxx&limit=5
+# Trong file này cursor được tạo từ id cuối cùng rồi mã hóa base64.
+# limit = số phần tử cần lấy tiếp.
 
 def encode_cursor(id):
-    """Encode id thành cursor"""
+    """Mã hóa id thành cursor để client gửi lại ở lần gọi sau."""
     return base64.b64encode(str(id).encode()).decode()
 
 def decode_cursor(cursor):
-    """Decode cursor thành id"""
+    """Giải mã cursor để lấy lại id gốc."""
     try:
         return int(base64.b64decode(cursor).decode())
     except:
+        # Nếu cursor lỗi thì cho về 0 để bắt đầu lại từ đầu.
         return 0
 
 @app.route("/books")
@@ -45,31 +47,41 @@ def books_cursor():
       200:
         description: Page of books with next cursor
     """
+    # cursor là mốc cuối cùng của lần đọc trước.
     cursor = request.args.get("cursor", None)
+    # limit là số phần tử muốn lấy tiếp.
     limit = int(request.args.get("limit", 5))
 
-    # Nếu có cursor, tìm vị trí bắt đầu
+    # Mặc định bắt đầu từ đầu danh sách.
     start_idx = 0
     if cursor:
+        # Giải mã cursor để lấy id cuối cùng.
         cursor_id = decode_cursor(cursor)
-        # Tìm vị trí của cursor_id trong list
+        # Tìm vị trí của id đó trong danh sách.
         for idx, book in enumerate(books):
             if book["id"] == cursor_id:
+                # Bắt đầu từ phần tử ngay sau phần tử cuối cùng của trang trước.
                 start_idx = idx + 1
                 break
 
+    # Lấy tiếp limit phần tử kể từ vị trí start_idx.
     result = books[start_idx: start_idx + limit]
 
-    # Tính next_cursor
+    # Tạo cursor cho lần gọi tiếp theo.
     next_cursor = None
     if result and start_idx + limit < len(books):
+        # Dùng id của phần tử cuối cùng trong result làm mốc mới.
         next_cursor = encode_cursor(result[-1]["id"])
 
     return jsonify({
+        # Dữ liệu của lần gọi hiện tại.
         "data": result,
+        # Cursor client vừa gửi lên.
         "cursor": cursor,
+        # Cursor cho lần gọi kế tiếp.
         "next_cursor": next_cursor,
         "limit": limit,
+        # Cho biết còn dữ liệu phía sau hay không.
         "has_next": next_cursor is not None
     })
 
